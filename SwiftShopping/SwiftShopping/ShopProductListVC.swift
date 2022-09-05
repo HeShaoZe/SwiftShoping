@@ -37,9 +37,10 @@ class ShopProductListVC: UIViewController {
         
         let headerRefresh = MJRefreshNormalHeader{
             print("headerRefreshfdf")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.myTableView?.mj_header?.endRefreshing()
-            }
+            self.requestPageLst()
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                self.myTableView?.mj_header?.endRefreshing()
+//            }
         }
         headerRefresh.stateLabel?.isHidden = true
         headerRefresh.lastUpdatedTimeLabel?.isHidden = true
@@ -53,6 +54,7 @@ class ShopProductListVC: UIViewController {
     
     func requestPageLst() {
         ShopProductListNetWork.requestPageContentList {[weak self] resultArrayTH in
+            self?.myTableView?.mj_header?.endRefreshing()
             self?.resultArray = resultArrayTH
             self?.myTableView?.reloadData()
         }
@@ -68,6 +70,19 @@ extension ShopProductListVC : UITableViewDataSource {
         let resultCell : ShopProductListCell = tableView.dequeueReusableCell(withIdentifier: ShopProductListCell.description(), for: indexPath) as! ShopProductListCell
         let itemMode : ShopProductListModel = self.resultArray[indexPath.row]
         resultCell.recePageModel(datModel: itemMode)
+        resultCell.selecRowNum = indexPath.row
+        resultCell.selectRowIndex = { [self] (selectRo) -> Void in
+            var result : [ShopProductListModel] = [ShopProductListModel]()
+            for cellRow in 0..<resultArray.count {
+                let itemModel : ShopProductListModel = resultArray[cellRow]
+                if cellRow == selectRo {
+                    itemModel.isCollection = !itemModel.isCollection
+                }
+                result.append(itemModel)
+            }
+            resultArray = result
+            self.myTableView?.reloadData()
+        }
         //resultCell.textLabel?.text = "the index is \(indexPath.row)"
         return resultCell
     }

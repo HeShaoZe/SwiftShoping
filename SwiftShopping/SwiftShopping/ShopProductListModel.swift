@@ -9,6 +9,7 @@ import UIKit
 import HandyJSON
 
 class ShopProductListModel: HandyJSON {
+    var isCollection : Bool = false
     var cover: String = ""
     var id:Int?
     var name: String?
