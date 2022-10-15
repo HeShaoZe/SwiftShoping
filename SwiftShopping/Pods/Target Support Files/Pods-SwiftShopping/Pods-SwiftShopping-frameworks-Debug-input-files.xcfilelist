@@ -1,0 +1,6 @@
+${PODS_ROOT}/Target Support Files/Pods-SwiftShopping/Pods-SwiftShopping-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
+${BUILT_PRODUCTS_DIR}/HandyJSON/HandyJSON.framework
+${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework
+${BUILT_PRODUCTS_DIR}/Moya/Moya.framework
+${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework

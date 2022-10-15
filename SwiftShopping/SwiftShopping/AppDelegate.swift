@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  SwiftShopping
 //
-//  Created by Mac on 2022/9/4.
+//  Created by Ze Shao on 2022/10/15.
 //
 
 import UIKit

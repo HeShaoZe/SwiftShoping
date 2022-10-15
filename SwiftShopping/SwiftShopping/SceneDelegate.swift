@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  SwiftShopping
 //
-//  Created by Mac on 2022/9/4.
+//  Created by Ze Shao on 2022/10/15.
 //
 
 import UIKit
@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let myWindow = UIWindow.init(windowScene: windowScene)
-        let shopProductListVC = ShopProductListVC.init()
+        let shopProductListVC = ShopRootTabbarVC.init()
         myWindow.rootViewController = shopProductListVC
         myWindow.makeKeyAndVisible()
         self.window = myWindow

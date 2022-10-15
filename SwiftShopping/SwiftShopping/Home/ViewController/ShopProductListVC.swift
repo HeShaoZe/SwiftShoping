@@ -15,7 +15,8 @@ class ShopProductListVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        self.navigationController?.navigationBar.backgroundColor = .white
+        self.navigationItem.title = "Shop"
         // Do any additional setup after loading the view.
         self.loadMainPageView()
         self.requestPageLst()
@@ -77,6 +78,7 @@ extension ShopProductListVC : UITableViewDataSource {
                 let itemModel : ShopProductListModel = resultArray[cellRow]
                 if cellRow == selectRo {
                     itemModel.isCollection = !itemModel.isCollection
+                    self.handleSelectItem(itemModel)
                 }
                 result.append(itemModel)
             }
@@ -85,6 +87,43 @@ extension ShopProductListVC : UITableViewDataSource {
         }
         //resultCell.textLabel?.text = "the index is \(indexPath.row)"
         return resultCell
+    }
+    
+    func handleSelectItem(_ itemModel : ShopProductListModel) {
+//        let storeTool = ShopStoreLocallyTool()
+        let shopRoot = self.getCurrentWindwo().rootViewController as? ShopRootTabbarVC
+        let collectionShop = shopRoot?.collectionVC
+        var arraySource = collectionShop?.resultArray //storeTool.getSourceData()
+        if itemModel.isCollection {
+            arraySource?.append(itemModel)
+        } else {
+            for index in 0..<(arraySource?.count ?? 0) {
+                let selecModel = arraySource?[index];
+                if selecModel?.id == itemModel.id {
+                    arraySource?.remove(at: index)
+                    break
+                }
+            }
+        }
+//        storeTool.wirtFileWithContent(arraySource)
+
+        collectionShop?.refreshPageList(listAray: arraySource ?? [ShopProductListModel]())
+    }
+    
+    func getCurrentWindwo() -> UIWindow {
+        var window: UIWindow? = nil
+        if #available(iOS 13.0, *) {
+            window = UIApplication.shared.connectedScenes
+                .filter({ $0.activationState == .foregroundActive })
+                .map({ $0 as? UIWindowScene })
+                .compactMap({ $0 })
+                .last?.windows
+                //.filter({ $0.isKeyWindow })
+                .last
+        } else {
+            window = UIApplication.shared.keyWindow
+        }
+        return window ?? UIWindow()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
